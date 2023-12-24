@@ -58,12 +58,16 @@
       const exteriorAngle = 360 / numSides;
 
       const sideLength = calculateSideLength(); // Placeholder function for side length calculation
+      const diagonalLength = calculateDiagonalLength(sideLength);
+      const distanceToCenter = calculateDistanceToCenter();
 
       const resultMessage = `
         <strong>Number of Sides:</strong> ${numSides} <br>
         <strong>Interior Angle:</strong> ${interiorAngle.toFixed(2)} degrees <br>
         <strong>Exterior Angle:</strong> ${exteriorAngle.toFixed(2)} degrees <br>
-        <strong>Side Length:</strong> ${sideLength.toFixed(2)} units
+        <strong>Side Length:</strong> ${sideLength.toFixed(2)} units <br>
+        <strong>Diagonal Length:</strong> ${diagonalLength.toFixed(2)} units <br>
+        <strong>Distance to Center from Origin:</strong> ${distanceToCenter.toFixed(2)} units
       `;
 
       document.getElementById('result').innerHTML = resultMessage;
@@ -77,6 +81,21 @@
       // You can implement the logic to calculate the side length based on your specific requirements.
       // For simplicity, let's assume a default side length.
       return 50;
+    }
+
+    // Function to calculate diagonal length
+    function calculateDiagonalLength(sideLength) {
+      // For a regular polygon, the diagonal length can be calculated using the side length.
+      // Diagonal length = 2 * side length * sin(pi / numSides)
+      const numSides = parseInt(document.getElementById('numSides').value, 10);
+      const angle = Math.PI / numSides;
+      return 2 * sideLength * Math.sin(angle);
+    }
+
+    // Function to calculate the distance from the origin to the center of the shape
+    function calculateDistanceToCenter() {
+      // For simplicity, let's assume the center of the shape is at the origin (0, 0).
+      return 0;
     }
 
     // Function to draw the 3D regular polygon using Three.js
@@ -95,48 +114,49 @@
       // Create regular polygon geometry
       const geometry = new THREE.CircleGeometry(radius, numSides);
 
-      // Material for the polygon
-      const filledColor = document.getElementById('filledColor').value;
-      const outlineColor = document.getElementById('outlineColor').value;
+  // Material for the polygon
+  const filledColor = document.getElementById('filledColor').value;
+  const outlineColor = document.getElementById('outlineColor').value;
 
-      const material = new THREE.MeshBasicMaterial({
-        color: filledShape ? filledColor : 0xffffff, // Use white when not filled
-        side: THREE.DoubleSide,
-        wireframe: !filledShape,
-        wireframeLinewidth: 2
-      });
+  const material = new THREE.MeshBasicMaterial({
+    color: filledShape ? filledColor : 0xffffff, // Use white when not filled
+    side: THREE.DoubleSide,
+    wireframe: !filledShape,
+    wireframeLinewidth: 2
+  });
 
-      // Create mesh (the polygon)
-      const polygon = new THREE.Mesh(geometry, material);
+  // Create mesh (the polygon)
+  const polygon = new THREE.Mesh(geometry, material);
 
-      // Add the polygon to the scene
-      scene.add(polygon);
+  // Add the polygon to the scene
+  scene.add(polygon);
 
-      // Set camera position
-      camera.position.z = 200;
+  // Set camera position
+  camera.position.z = 200;
 
-      // Animation function
-      function animate() {
-        requestAnimationFrame(animate);
+  // Animation function
+  function animate() {
+    requestAnimationFrame(animate);
 
-        // Rotate the polygon
-        polygon.rotation.x += 0.01;
-        polygon.rotation.y += 0.01;
+    // Rotate the polygon
+    polygon.rotation.x += 0.01;
+    polygon.rotation.y += 0.01;
 
-        renderer.render(scene, camera);
-      }
+    renderer.render(scene, camera);
+  }
 
-      animate();
-    }
+  animate();
+}
 
-    // Event listeners for the checkbox and color inputs
-    document.getElementById('filledCheckbox').addEventListener('change', function () {
-      filledShape = this.checked;
-      calculateProperties();
-    });
+// Event listeners for the checkbox and color inputs
+document.getElementById('filledCheckbox').addEventListener('change', function () {
+  filledShape = this.checked;
+  calculateProperties();
+});
 
-    document.getElementById('filledColor').addEventListener('input', calculateProperties);
-    document.getElementById('outlineColor').addEventListener('input', calculateProperties);
+document.getElementById('filledColor').addEventListener('input', calculateProperties);
+document.getElementById('outlineColor').addEventListener('input', calculateProperties);
+
   </script>
 </body>
 </html>
