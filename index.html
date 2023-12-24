@@ -100,7 +100,7 @@
       const outlineColor = document.getElementById('outlineColor').value;
 
       const material = new THREE.MeshBasicMaterial({
-        color: filledShape ? filledColor : 0x000000,
+        color: filledShape ? filledColor : 0xffffff, // Use white when not filled
         side: THREE.DoubleSide,
         wireframe: !filledShape,
         wireframeLinewidth: 2
@@ -134,9 +134,7 @@
       filledShape = this.checked;
       calculateProperties();
     });
-
-    document.getElementById('filledColor').addEventListener('input', calculateProperties);
-    document.getElementById('outlineColor').addEventListener('input', calculateProperties);
-  </script>
+    document.getElementById(‘filledColor’).addEventListener(‘input’, calculateProperties);
+    document.getElementById(‘outlineColor’).addEventListener(‘input’, calculateProperties);
 </body>
 </html>
