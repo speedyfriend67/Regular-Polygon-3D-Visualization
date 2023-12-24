@@ -3,85 +3,55 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Regular Polygon Properties</title>
+  <title>Spinning 3D Regular Polygon</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-    }
-
-    canvas {
-      border: 1px solid #000;
+      margin: 0;
+      overflow: hidden;
     }
   </style>
 </head>
 <body>
-  <h2>Regular Polygon Properties</h2>
-  <label for="numSides">Enter the number of sides:</label>
-  <input type="number" id="numSides" min="3" step="1" value="3">
-  <button onclick="calculateProperties()">Calculate</button>
-
-  <p id="result"></p>
-
-  <canvas id="polygonCanvas" width="400" height="400"></canvas>
+  <script src="https://threejs.org/build/three.min.js"></script>
 
   <script>
-    function calculateProperties() {
-      const numSides = parseInt(document.getElementById('numSides').value, 10);
+    const numSides = 6; // You can change the number of sides
 
-      if (numSides < 3) {
-        alert("A polygon must have at least 3 sides.");
-        return;
-      }
+    // Set up Three.js scene
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer();
+    
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
 
-      const interiorAngle = ((numSides - 2) * 180) / numSides;
-      const exteriorAngle = 360 / numSides;
+    // Create regular polygon geometry
+    const geometry = new THREE.CircleGeometry(5, numSides);
+    
+    // Material for the polygon
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, side: THREE.DoubleSide });
+    
+    // Create mesh (the polygon)
+    const polygon = new THREE.Mesh(geometry, material);
+    
+    // Add the polygon to the scene
+    scene.add(polygon);
 
-      const sideLength = calculateSideLength(); // Placeholder function for side length calculation
+    // Set camera position
+    camera.position.z = 10;
 
-      const resultMessage = `
-        <strong>Number of Sides:</strong> ${numSides} <br>
-        <strong>Interior Angle:</strong> ${interiorAngle.toFixed(2)} degrees <br>
-        <strong>Exterior Angle:</strong> ${exteriorAngle.toFixed(2)} degrees <br>
-        <strong>Side Length:</strong> ${sideLength.toFixed(2)} units
-      `;
+    // Animation function
+    function animate() {
+      requestAnimationFrame(animate);
 
-      document.getElementById('result').innerHTML = resultMessage;
+      // Rotate the polygon
+      polygon.rotation.x += 0.01;
+      polygon.rotation.y += 0.01;
 
-      // Draw the regular polygon
-      drawPolygon(numSides);
+      renderer.render(scene, camera);
     }
 
-    // Placeholder function for side length calculation
-    function calculateSideLength() {
-      // You can implement the logic to calculate the side length based on your specific requirements.
-      // For simplicity, let's assume a default side length.
-      return 50;
-    }
-
-    function drawPolygon(numSides) {
-      const canvas = document.getElementById('polygonCanvas');
-      const context = canvas.getContext('2d');
-      const centerX = canvas.width / 2;
-      const centerY = canvas.height / 2;
-      const radius = 100; // Adjust the radius based on your requirements
-
-      context.clearRect(0, 0, canvas.width, canvas.height);
-
-      context.beginPath();
-      context.moveTo(centerX + radius, centerY);
-
-      for (let i = 1; i <= numSides; i++) {
-        const angle = (i * 2 * Math.PI) / numSides;
-        const x = centerX + radius * Math.cos(angle);
-        const y = centerY + radius * Math.sin(angle);
-        context.lineTo(x, y);
-      }
-
-      context.closePath();
-      context.strokeStyle = '#000';
-      context.stroke();
-    }
+    animate();
   </script>
 </body>
 </html>
