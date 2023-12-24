@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Regular Polygon Properties</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h2>Regular Polygon Properties</h2>
+  <label for="numSides">Enter the number of sides:</label>
+  <input type="number" id="numSides" min="3" step="1" value="3">
+  <button onclick="calculateProperties()">Calculate</button>
+
+  <p id="result"></p>
+
+  <script>
+    function calculateProperties() {
+      const numSides = parseInt(document.getElementById('numSides').value, 10);
+
+      if (numSides < 3) {
+        alert("A polygon must have at least 3 sides.");
+        return;
+      }
+
+      const interiorAngle = ((numSides - 2) * 180) / numSides;
+      const exteriorAngle = 360 / numSides;
+
+      const sideLength = calculateSideLength(); // Placeholder function for side length calculation
+
+      const resultMessage = `
+        <strong>Number of Sides:</strong> ${numSides} <br>
+        <strong>Interior Angle:</strong> ${interiorAngle.toFixed(2)} degrees <br>
+        <strong>Exterior Angle:</strong> ${exteriorAngle.toFixed(2)} degrees <br>
+        <strong>Side Length:</strong> ${sideLength.toFixed(2)} units
+      `;
+
+      document.getElementById('result').innerHTML = resultMessage;
+    }
+
+    // Placeholder function for side length calculation
+    function calculateSideLength() {
+      // You can implement the logic to calculate the side length based on your specific requirements.
+      // For simplicity, let's assume a default side length.
+      return 10;
+    }
+  </script>
+</body>
+</html>
