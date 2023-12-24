@@ -94,7 +94,7 @@
 
       // Create regular polygon geometry
       const geometry = new THREE.CircleGeometry(radius, numSides);
-      
+
       // Material for the polygon
       const filledColor = document.getElementById('filledColor').value;
       const outlineColor = document.getElementById('outlineColor').value;
@@ -134,7 +134,9 @@
       filledShape = this.checked;
       calculateProperties();
     });
-    document.getElementById(‘filledColor’).addEventListener(‘input’, calculateProperties);
-    document.getElementById(‘outlineColor’).addEventListener(‘input’, calculateProperties);
+
+    document.getElementById('filledColor').addEventListener('input', calculateProperties);
+    document.getElementById('outlineColor').addEventListener('input', calculateProperties);
+  </script>
 </body>
 </html>
