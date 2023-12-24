@@ -15,6 +15,11 @@
     canvas {
       border: 1px solid #000;
     }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
@@ -23,8 +28,14 @@
   <input type="number" id="numSides" min="3" step="1" value="3">
   <button onclick="calculateProperties()">Calculate</button>
   <br>
-  <input type="checkbox" id="filledCheckbox" checked>
   <label for="filledCheckbox">Filled Shape</label>
+  <input type="checkbox" id="filledCheckbox" checked>
+  <br>
+  <label for="filledColor">Filled Shape Color:</label>
+  <input type="color" id="filledColor" value="#00ff00">
+  <br>
+  <label for="outlineColor">Outline Color:</label>
+  <input type="color" id="outlineColor" value="#000000">
 
   <p id="result"></p>
 
@@ -85,10 +96,14 @@
       const geometry = new THREE.CircleGeometry(radius, numSides);
       
       // Material for the polygon
+      const filledColor = document.getElementById('filledColor').value;
+      const outlineColor = document.getElementById('outlineColor').value;
+
       const material = new THREE.MeshBasicMaterial({
-        color: 0x00ff00,
+        color: filledShape ? filledColor : 0x000000,
         side: THREE.DoubleSide,
-        wireframe: !filledShape
+        wireframe: !filledShape,
+        wireframeLinewidth: 2
       });
 
       // Create mesh (the polygon)
@@ -114,11 +129,14 @@
       animate();
     }
 
-    // Event listener for the checkbox to toggle between filled and outlined shapes
+    // Event listeners for the checkbox and color inputs
     document.getElementById('filledCheckbox').addEventListener('change', function () {
       filledShape = this.checked;
       calculateProperties();
     });
+
+    document.getElementById('filledColor').addEventListener('input', calculateProperties);
+    document.getElementById('outlineColor').addEventListener('input', calculateProperties);
   </script>
 </body>
 </html>
