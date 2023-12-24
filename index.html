@@ -43,9 +43,8 @@
 
   <script src="https://threejs.org/build/three.min.js"></script>
   <script>
-    let filledShape = true; // Default to filled shape
+    let filledShape = true;
 
-    // Function to calculate polygon properties and draw 3D shape
     function calculateProperties() {
       const numSides = parseInt(document.getElementById('numSides').value, 10);
 
@@ -57,7 +56,7 @@
       const interiorAngle = ((numSides - 2) * 180) / numSides;
       const exteriorAngle = 360 / numSides;
 
-      const sideLength = calculateSideLength(); // Placeholder function for side length calculation
+      const sideLength = calculateSideLength();
       const diagonalLength = calculateDiagonalLength(sideLength);
       const distanceToCenter = calculateDistanceToCenter();
 
@@ -76,69 +75,50 @@
       drawPolygon(numSides);
     }
 
-    // Placeholder function for side length calculation
     function calculateSideLength() {
-      // You can implement the logic to calculate the side length based on your specific requirements.
-      // For simplicity, let's assume a default side length.
       return 50;
     }
 
-    // Function to calculate diagonal length
     function calculateDiagonalLength(sideLength) {
-      // For a regular polygon, the diagonal length can be calculated using the side length.
-      // Diagonal length = 2 * side length * sin(pi / numSides)
       const numSides = parseInt(document.getElementById('numSides').value, 10);
       const angle = Math.PI / numSides;
       return 2 * sideLength * Math.sin(angle);
     }
 
-    // Function to calculate the distance from the origin to the center of the shape
     function calculateDistanceToCenter() {
-      // For simplicity, let's assume the center of the shape is at the origin (0, 0).
       return 0;
     }
 
-    // Function to draw the 3D regular polygon using Three.js
     function drawPolygon(numSides) {
       const canvas = document.getElementById('polygonCanvas');
       const centerX = canvas.width / 2;
       const centerY = canvas.height / 2;
-      const radius = 100; // Adjust the radius based on your requirements
+      const radius = 100;
 
-      // Set up Three.js scene
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(75, canvas.width / canvas.height, 0.1, 1000);
       const renderer = new THREE.WebGLRenderer({ canvas });
       renderer.setSize(canvas.width, canvas.height);
 
-      // Create regular polygon geometry
       const geometry = new THREE.CircleGeometry(radius, numSides);
-
-  // Material for the polygon
   const filledColor = document.getElementById('filledColor').value;
   const outlineColor = document.getElementById('outlineColor').value;
 
   const material = new THREE.MeshBasicMaterial({
-    color: filledShape ? filledColor : 0xffffff, // Use white when not filled
+    color: filledShape ? filledColor : 0xffffff,
     side: THREE.DoubleSide,
     wireframe: !filledShape,
     wireframeLinewidth: 2
   });
-
-  // Create mesh (the polygon)
   const polygon = new THREE.Mesh(geometry, material);
 
-  // Add the polygon to the scene
   scene.add(polygon);
 
-  // Set camera position
   camera.position.z = 200;
 
-  // Animation function
   function animate() {
     requestAnimationFrame(animate);
 
-    // Rotate the polygon
     polygon.rotation.x += 0.01;
     polygon.rotation.y += 0.01;
 
@@ -148,7 +128,6 @@
   animate();
 }
 
-// Event listeners for the checkbox and color inputs
 document.getElementById('filledCheckbox').addEventListener('change', function () {
   filledShape = this.checked;
   calculateProperties();
