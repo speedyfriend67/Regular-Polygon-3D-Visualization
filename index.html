@@ -35,7 +35,7 @@
   <input type="color" id="filledColor" value="#00ff00">
   <br>
   <label for="outlineColor">Outline Color:</label>
-  <input type="color" id="outlineColor" value="#000000">
+  <input type="color" id="outlineColor" value="#00ff00">
 
   <p id="result"></p>
 
@@ -105,7 +105,7 @@
   const outlineColor = document.getElementById('outlineColor').value;
 
   const material = new THREE.MeshBasicMaterial({
-    color: filledShape ? filledColor : 0xffffff,
+    color: filledShape ? filledColor : outlineColor,
     side: THREE.DoubleSide,
     wireframe: !filledShape,
     wireframeLinewidth: 2
